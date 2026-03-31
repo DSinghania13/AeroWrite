@@ -160,7 +160,7 @@ Because this system uses personalized calibration, it needs to learn your handwr
 
 ---
 
-## 🤝 Contribution & License
+## 🤝 Contribution
 
 We welcome contributions from the open-source and academic communities! If you would like to optimize the recognition pipeline, introduce new neural network architectures, or enhance the spatial tracking algorithms, please feel free to fork this repository, open an issue, or submit a pull request.
 
