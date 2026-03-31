@@ -83,7 +83,7 @@ while True:
 
         draw_landmarks(frame, hand)
 
-        # 👉 CORE PIPELINE CALL
+        # CORE PIPELINE CALL
         status_text = writer.update(hand, frame)
 
     # Overlay drawing

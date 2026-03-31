@@ -33,7 +33,6 @@ class WritingHandler:
         self.submit_display_time = 0
         self.SUBMIT_SHOW_TIME = 2.0
 
-        # 🔥 NEW: Personalized Template Dictionary
         self.templates = {}
         self.template_dir = "my_handwriting_templates"
         os.makedirs(self.template_dir, exist_ok=True)
@@ -43,11 +42,9 @@ class WritingHandler:
         """Loads your saved letters when the script starts."""
         for file in os.listdir(self.template_dir):
             if file.endswith(".png"):
-                # This safely reads both old "A.png" and new "A_1.png" files
                 char = file.split('_')[0].replace(".png", "")
                 img = cv2.imread(os.path.join(self.template_dir, file), cv2.IMREAD_GRAYSCALE)
 
-                # If this letter isn't in our dictionary yet, create an empty list for it
                 if char not in self.templates:
                     self.templates[char] = []
 
@@ -80,7 +77,6 @@ class WritingHandler:
     def init_canvas(self, frame):
         if self.canvas is None: self.canvas = np.zeros_like(frame)
 
-    # 🔥 NEW: Extracts a perfectly cropped 64x64 picture of your letter
     def extract_feature(self):
         if self.canvas is None: return None
         gray = cv2.cvtColor(self.canvas, cv2.COLOR_BGR2GRAY)
@@ -90,23 +86,20 @@ class WritingHandler:
 
         x, y, w, h = cv2.boundingRect(coords)
         cropped = binary[y:y + h, x:x + w]
-        return cv2.resize(cropped, (64, 64))  # Stretch to perfect square
+        return cv2.resize(cropped, (64, 64))
 
-    # 🔥 NEW: Saves your drawing to a folder
+
     def calibrate(self, char):
         feature = self.extract_feature()
         if feature is not None:
             char = char.upper()
 
-            # Make sure the list exists
             if char not in self.templates:
                 self.templates[char] = []
 
-            # Figure out what number this variation is
             variation_num = len(self.templates[char]) + 1
             filename = f"{char}_{variation_num}.png"
 
-            # Save it to memory and to your hard drive
             self.templates[char].append(feature)
             cv2.imwrite(os.path.join(self.template_dir, filename), feature)
 
@@ -153,7 +146,7 @@ class WritingHandler:
                     self.writing = False
                     self.eraser_mode = False
 
-                    self.process_stroke()  # Run Image Matcher
+                    self.process_stroke()
 
                     self.submit_display_time = now
                     self.submitted_text = self.text
@@ -193,7 +186,6 @@ class WritingHandler:
 
         return status_text
 
-    # 🔥 NEW: Compares your drawing to your saved snapshots
     def process_stroke(self):
         feature = self.extract_feature()
         if feature is None or not self.templates:
@@ -203,11 +195,8 @@ class WritingHandler:
         best_char = None
         best_diff = float('inf')
 
-        # Loop through every letter (A, B, C...)
         for char, variations in self.templates.items():
-            # Loop through every saved picture of that letter
             for template in variations:
-                # Compare pixel-by-pixel
                 diff = np.sum(cv2.absdiff(feature, template))
 
                 if diff < best_diff:
