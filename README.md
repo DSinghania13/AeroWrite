@@ -60,8 +60,9 @@ source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 
 ### 3. Install Dependencies:
 
+To replicate the exact environment, install the required packages via the provided requirements file:
 ```bash
-pip install opencv-python mediapipe numpy
+pip install -r requirements.txt
 ```
 
 ### 4. Run the Application:
