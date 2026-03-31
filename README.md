@@ -169,6 +169,6 @@ This system was originally engineered for educational and research purposes, exp
 
 ---
 
-## License:
+## 📝 License:
 
 This project is open-sourced and distributed under the **MIT License**. You are free to use, modify, and distribute this software for both academic and commercial purposes, provided that proper attribution is given to the original author.
